@@ -23,8 +23,8 @@ namespace WindowsFormsApplication15
         {
             string startupPath = Application.StartupPath;
             string file = startupPath + @"\binaryFile";
-
             StreamWriter writer = new StreamWriter(file);
+            
 
             while (true)
             {
@@ -32,6 +32,11 @@ namespace WindowsFormsApplication15
                 do
                 {
                     response = Microsoft.VisualBasic.Interaction.InputBox("enter a new binary number?", "New Number?", "", 200, 200);
+                    if (response == "")
+                    {
+                        writer.Close();
+                        return;
+                    }
                 }
                 while (response != "y" && response != "n");
 
@@ -39,18 +44,29 @@ namespace WindowsFormsApplication15
                     break;
 
                 string binaryNumber;
-                do {
+                do
+                {
                     binaryNumber = Microsoft.VisualBasic.Interaction.InputBox("Type the new number in Binary", "Binary Number", "", 200, 200);
                     binaryNumber = binaryNumber.Trim();
+                    if (binaryNumber == "")
+                    {
+                        writer.Close();
+                        return;
+                    }
                 }
                 while (!Regex.IsMatch(binaryNumber, "^[01]+$"));
 
                 string signed = "";
-                do {
+                do
+                {
                     signed = Microsoft.VisualBasic.Interaction.InputBox("Would you like the signed binary decimal? 'y' for signed and 'n' for unsigned.", "Signed or Unsigned", "", 200, 200);
+                    if (signed == "")
+                    {
+                        writer.Close();
+                        return;
+                    }
                 }
                 while (signed != "y" && signed != "n");
-
 
                 writer.WriteLine(binaryNumber);
                 writer.WriteLine(signed);
@@ -71,10 +87,8 @@ namespace WindowsFormsApplication15
             string signed;
             bool isSigned;
             
-
             while (true)
-            {
-                
+            { 
                 binaryNumber = reader.ReadLine();
                 signed = reader.ReadLine();
                 isSigned = signed == "y" ? true : false;
@@ -82,11 +96,8 @@ namespace WindowsFormsApplication15
                 if (binaryNumber == null)
                     break;
                 
-
-
                 if (isSigned)
                 {
-                    
                     contents += "The signed binary number " + binaryNumber + " in decimal form is: " + BinaryConversion.GetSignedBinaryValue(binaryNumber).ToString() + Environment.NewLine;
                 }
                 else if(!isSigned)
@@ -95,9 +106,7 @@ namespace WindowsFormsApplication15
                 }
                 
             }
-
             reader.Close();
-
             textBox1.Text = contents;
         }
 
